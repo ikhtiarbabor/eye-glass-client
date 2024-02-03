@@ -7,7 +7,9 @@ export interface TProductColumn {
   color: string;
   gender: string;
   material: string;
+  status: string;
   action: string;
+  _id:string;
 }
 
 interface Brand {

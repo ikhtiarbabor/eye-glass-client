@@ -1,5 +1,6 @@
 import { Space, TableProps } from 'antd';
 import { TProductColumn } from '../../types/allProduct.types';
+import SaleManageMentModal from './SaleManageMentModal';
 
 export const saleManagementTableHeader: TableProps<TProductColumn>['columns'] =
   [
@@ -44,13 +45,29 @@ export const saleManagementTableHeader: TableProps<TProductColumn>['columns'] =
       dataIndex: 'material',
       key: 'material',
     },
+    {
+      title: 'Status',
+
+      key: 'status',
+      render: (_, record) => (
+        <p
+          className={`${
+            record.status === 'in stock' ? 'text-green-500' : 'text-red-500'
+          }`}
+        >
+          {record.status}
+        </p>
+      ),
+    },
 
     {
-      title: 'Action',
+      title: 'Sell',
       key: 'action',
       render: (_, record) => (
-        <Space size='middle'>
-          <button>sale</button>
+        <Space size='large'>
+          <button>
+            <SaleManageMentModal productName={record.name} id={record._id} />
+          </button>
         </Space>
       ),
     },

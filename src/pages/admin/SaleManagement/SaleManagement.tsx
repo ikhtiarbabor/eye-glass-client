@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { saleManagementTableHeader } from '../../../components/SalesManagement/SaleManagementTableHeader';
+import { saleManagementTableHeader } from '../../../components/SalesManagement/saleManagementTableHeader';
 import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
 import { TProduct } from '../../../types/allProduct.types';
 
