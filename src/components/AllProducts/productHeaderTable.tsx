@@ -1,10 +1,22 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Space, TableProps } from 'antd';
 import { TProductColumn } from '../../types/allProduct.types';
+import BulkDeleteInput from './BulkDeleteInput';
 import DeleteProduct from './DeleteProduct';
+import SelectAllInput from './SelectAllInput';
 import { UpdateModal } from './UpdateModal';
+import { chooseColor } from '../../utils/chooseColor';
 
 export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
+  {
+    title: <SelectAllInput />,
+    key: 'delete',
+    render: (_, record) => (
+      <div className='mx-3'>
+        <BulkDeleteInput id={record.id} />
+      </div>
+    ),
+  },
   {
     title: 'ID',
     dataIndex: 'id',
@@ -18,7 +30,12 @@ export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
   {
     title: 'Price',
     dataIndex: 'price',
-    key: 'pride',
+    key: 'price',
+  },
+  {
+    title: 'Quantity',
+    dataIndex: 'quantity',
+    key: 'quantity',
   },
   {
     title: 'Brand',
@@ -26,9 +43,28 @@ export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
     key: 'brand',
   },
   {
+    title: 'Lense',
+    dataIndex: 'lenseType',
+    key: 'lenseType',
+  },
+  {
     title: 'Color',
-    dataIndex: 'color',
+
     key: 'color',
+    render: (_, record) => (
+      <p
+        className={`size-5 rounded-full text-transparent ${chooseColor(
+          record.color
+        )}`}
+      >
+        .
+      </p>
+    ),
+  },
+  {
+    title: 'Shape',
+    dataIndex: 'shape',
+    key: 'shape',
   },
   {
     title: 'Gender',

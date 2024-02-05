@@ -40,6 +40,7 @@ export function UpdateModal({ children, product, id }: TUpdateProduct) {
     shape,
     material,
   };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -66,7 +67,7 @@ export function UpdateModal({ children, product, id }: TUpdateProduct) {
       });
       setIsModalOpen(false);
     } catch (error: TError | any) {
-      toast.success(`${error?.message}`, { id: updateTostId, duration: 2000 });
+      toast.error(`${error?.message}`, { id: updateTostId, duration: 2000 });
     }
   };
 
@@ -138,6 +139,7 @@ export function UpdateModal({ children, product, id }: TUpdateProduct) {
             require
             type='number'
           />
+
           {/* price */}
           <Input title='price' label='Enter Your Price' require type='number' />
           {/* color */}

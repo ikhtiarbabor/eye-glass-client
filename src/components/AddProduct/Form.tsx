@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Spin } from 'antd';
+import { Button } from 'antd';
 import { useState } from 'react';
 import { Controller, FieldValues, SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
-import { material } from '../../constant/addProduct.constant';
+import { lenseType, material } from '../../constant/addProduct.constant';
 import { useBrandsQuery } from '../../redux/features/brand/brandApi';
 import { useAddProductMutation } from '../../redux/features/product/productApi';
 import { TError } from '../../types';
 import EGForm from '../form/EGForm';
 import EGLabel from '../form/EGLabel';
+import EGLoading from '../ui/EGLoading';
 import Input from './Input';
 import SelectBrands from './SelectBrands';
 import SelectColor from './SelectColor';
@@ -64,11 +65,7 @@ export default function Form() {
   };
   let content = null;
   if (isLoading && !error) {
-    content = (
-      <div className='text-red-500'>
-        <Spin />
-      </div>
-    );
+    content = <EGLoading />;
   }
   if (!isLoading && !error && brands?.data?.length > 0) {
     content = (
@@ -85,6 +82,14 @@ export default function Form() {
             name='material'
             item={material}
             label='Enter Frame Metal'
+          />
+        </div>
+        <div>
+          <SelectionOptions
+            defaultValue='polarized'
+            name='lenseType'
+            item={lenseType}
+            label='Enter Type of Lense'
           />
         </div>
         <div className='my-2'>

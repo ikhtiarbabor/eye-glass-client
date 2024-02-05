@@ -22,3 +22,12 @@ export const shape: string[] = [
   'geometric',
   'wayfarer',
 ];
+export const lenseType = [
+  'polycarbonate',
+  'progressive',
+  'polarized',
+  'single vision',
+  'trifocals',
+  'bifocal',
+  'transitions',
+];

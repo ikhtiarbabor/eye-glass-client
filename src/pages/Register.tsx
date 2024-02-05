@@ -32,7 +32,7 @@ const Register = () => {
       });
       navigate('/login');
     } catch (error: TError | any) {
-      console.log(error);
+
 
       toast.error(
         `${error?.data?.errorSources[0]?.message || error?.data?.message}`,

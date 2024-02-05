@@ -1,4 +1,4 @@
-import { Space, TableProps } from 'antd';
+import { Space, TableProps, Tooltip } from 'antd';
 import { TProductColumn } from '../../types/allProduct.types';
 import SaleManageMentModal from './SaleManageMentModal';
 
@@ -22,7 +22,7 @@ export const saleManagementTableHeader: TableProps<TProductColumn>['columns'] =
     {
       title: 'Price',
       dataIndex: 'price',
-      key: 'pride',
+      key: 'price',
     },
     {
       title: 'Quantity',
@@ -51,8 +51,8 @@ export const saleManagementTableHeader: TableProps<TProductColumn>['columns'] =
       key: 'status',
       render: (_, record) => (
         <p
-          className={`${
-            record.status === 'in stock' ? 'text-green-500' : 'text-red-500'
+          className={`inline-block text-white px-2 py-1 rounded-lg ${
+            record.status === 'in stock' ? ' bg-green-400 ' : ' bg-red-400 '
           }`}
         >
           {record.status}
@@ -65,9 +65,23 @@ export const saleManagementTableHeader: TableProps<TProductColumn>['columns'] =
       key: 'action',
       render: (_, record) => (
         <Space size='large'>
-          <button>
-            <SaleManageMentModal productName={record.name} id={record._id} />
-          </button>
+          <Tooltip
+            color={`${record.status === 'out of stock' ? 'red' : 'green'}`}
+            placement='top'
+            title={`${
+              record.status === 'out of stock'
+                ? "You can't sell it because of out of stock "
+                : 'Sell this Product'
+            }`}
+          >
+            <button disabled={record.status === 'out of stock'} title=''>
+              <SaleManageMentModal
+                productName={record.name}
+                productId={record._id}
+                id={record.id}
+              />
+            </button>
+          </Tooltip>
         </Space>
       ),
     },

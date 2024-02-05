@@ -5,11 +5,13 @@ export default function Input({
   type,
   require,
   label,
+  defaultValue
 }: {
   title: string;
   type?: string;
   require?: boolean;
   label?: string;
+  defaultValue?: string;
 }) {
   return (
     <div className='my-2'>
@@ -25,6 +27,7 @@ export default function Input({
         name={title}
         render={({ field }) => (
           <input
+          defaultValue={defaultValue}
             min={0}
             {...field}
             type={type || 'text'}

@@ -10,6 +10,7 @@ export interface TProductColumn {
   status: string;
   action: string;
   _id:string;
+  sellDate?:Date
 }
 
 interface Brand {

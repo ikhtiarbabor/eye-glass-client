@@ -1,13 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Table } from 'antd';
-
+import { useState } from 'react';
+import FilterProduct from '../../../components/AllProducts/FilterProduct';
 import { productHeaderTable } from '../../../components/AllProducts/productHeaderTable';
+import EGError from '../../../components/ui/EGError';
+import EGLoading from '../../../components/ui/EGLoading';
+import { useBrandsQuery } from '../../../redux/features/brand/brandApi';
 import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
 
 export default function AllProducts() {
-  const { data: productRes } = useGetAllProductsQuery(undefined);
+  const [filterQuery, setFilterQuery] = useState({});
+  const {
+    data: brands,
+    isLoading: brandLoad,
+    error: brandErr,
+  } = useBrandsQuery(undefined);
+  const {
+    data: productRes,
+    isLoading,
+    error,
+  } = useGetAllProductsQuery(filterQuery);
   const { data } = productRes || {};
   const modifiedData = data?.map((product: any) => ({
+    quantity: product.quantity,
     name: product.name,
     color: product.color,
     brand: product.brand.brand,
@@ -15,11 +30,31 @@ export default function AllProducts() {
     material: product.material,
     price: product.price,
     id: product.id,
+    shape: product.shape,
+    lenseType: product?.lenseType,
   }));
-
-  return (
-    <div className='overflow-x-auto'>
-      <Table dataSource={modifiedData} columns={productHeaderTable} />
-    </div>
-  );
+  let content = null;
+  if ((isLoading || brandLoad) && !error && !brandErr) {
+    content = <EGLoading />;
+  }
+  if ((!isLoading && !brandLoad && brandErr) || error) {
+    content = (
+      <EGError message={error?.data?.message || brandErr?.data?.message} />
+    );
+  }
+  if (!isLoading && !error) {
+    content = (
+      <>
+        <FilterProduct setFilterQuery={setFilterQuery} brands={brands} />
+        <div className='overflow-x-auto'>
+          <Table
+            dataSource={modifiedData}
+            className='capitalize'
+            columns={productHeaderTable}
+          />
+        </div>
+      </>
+    );
+  }
+  return <>{content}</>;
 }

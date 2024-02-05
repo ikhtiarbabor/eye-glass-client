@@ -17,9 +17,11 @@ import EGButton from '../ui/EGButton';
 export default function SaleManageMentModal({
   productName,
   id,
+  productId,
 }: {
   productName: string;
   id: string;
+  productId: string;
 }) {
   const { data: me, isLoading } = useGetMeQuery(undefined);
   const [createSell, { isLoading: sellLoading }] = useCreateSellMutation();
@@ -41,18 +43,19 @@ export default function SaleManageMentModal({
     const { quantity, buyerName } = data;
     const sellInfo = {
       buyerName,
-      productId: id,
-      quantity,
+      productId,
+      quantity: Number(quantity),
       sellerId: me?.data?._id,
       sellDate,
     };
     const sellToast = toast.loading('Try to sell Product', { duration: 2000 });
     try {
-      const sellProduct = await createSell(sellInfo).unwrap();
+      const sellProduct = await createSell({ sellInfo, id }).unwrap();
       toast.success(`${sellProduct.message}`, {
         id: sellToast,
         duration: 2000,
       });
+      setIsModalOpen(false);
     } catch (error: TError | any) {
       toast.error(
         `${error?.data?.errorSources[0]?.message || error?.data?.message}`,

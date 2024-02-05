@@ -1,24 +1,32 @@
 import { Table } from 'antd';
 import { saleManagementTableHeader } from '../../../components/SalesManagement/saleManagementTableHeader';
+import EGError from '../../../components/ui/EGError';
+import EGLoading from '../../../components/ui/EGLoading';
 import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
 import { TProduct } from '../../../types/allProduct.types';
 
 export default function SaleManagement() {
-  const { data } = useGetAllProductsQuery(undefined);
+  const { data, isLoading, error } = useGetAllProductsQuery(undefined);
   const productData =
     data?.data?.map((product: TProduct) => ({
       ...product,
       brand: product.brand.brand,
     })) || [];
-  console.log(productData);
-
-  return (
-    <div className='overflow-x-auto'>
+  let content = null;
+  if (isLoading && !error) {
+    content = <EGLoading />;
+  }
+  if (!isLoading && error) {
+    content = <EGError message={error?.data?.message} />;
+  }
+  if (!error && !isLoading) {
+    content = (
       <Table
         dataSource={productData}
         className='capitalize'
         columns={saleManagementTableHeader}
       />
-    </div>
-  );
+    );
+  }
+  return <div className='overflow-x-auto'>{content}</div>;
 }

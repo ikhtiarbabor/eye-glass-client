@@ -12,20 +12,23 @@ const productApi = baseApi.injectEndpoints({
       },
     }),
     getAllProducts: builder.query({
-      query: () => ({
-        url: '/products',
-        method: 'GET',
-      }),
-      providesTags: (result) => {
-        console.log('result=>', result.data);
+      query: (filterQuery) => {
+        const query = Object?.entries(filterQuery || {})
+          ?.map((el) => `${el[0]}=${el[1]}`)
+          .join('&');
 
-        return result
+        return {
+          url: `/products?${query}`,
+          method: 'GET',
+        };
+      },
+      providesTags: (result) =>
+        result
           ? result?.data.map((product: Record<string, unknown>) => ({
               type: 'Products',
               id: product.id,
             }))
-          : [{ type: 'Products', id: 'ProductList' }];
-      },
+          : [{ type: 'Products', id: 'ProductList' }],
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({
@@ -48,6 +51,17 @@ const productApi = baseApi.injectEndpoints({
           ? [{ type: 'Products', id: args.id }]
           : [{ type: 'Products', id: 'ProductList' }],
     }),
+    bulkProductDelete: builder.mutation({
+      query: (deletedData) => ({
+        url: `/products/bulk`,
+        method: 'PATCH',
+        body: deletedData,
+      }),
+      invalidatesTags: (result, _error, args) =>
+        result
+          ? args.map((el: string) => ({ type: 'Products', id: el }))
+          : [{ type: 'Products', id: 'ProductList' }],
+    }),
   }),
 });
 export const {
@@ -55,4 +69,5 @@ export const {
   useGetAllProductsQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useBulkProductDeleteMutation,
 } = productApi;
