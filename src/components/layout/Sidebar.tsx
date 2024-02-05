@@ -33,7 +33,13 @@ const Sidebar = () => {
   }
 
   return (
-    <Sider width='250' id='antdSidebar' breakpoint='lg' collapsedWidth='0'>
+    <Sider
+      width='250'
+      id='antdSidebar'
+      breakpoint='lg'
+      collapsedWidth='0'
+      style={{ backgroundColor: '#5c3ca8' }}
+    >
       <div
         style={{
           color: 'white',
@@ -57,7 +63,6 @@ const Sidebar = () => {
         <p className='my-2 text-white font-bold'>{myData?.data?.username}</p>
       </div>
       <Menu
-        style={{ backgroundColor: '#5c3ca8' }}
         theme='dark'
         mode='inline'
         defaultSelectedKeys={['4']}

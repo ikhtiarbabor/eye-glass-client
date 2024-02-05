@@ -7,7 +7,11 @@ const { Content } = Layout;
 const MainLayout = () => {
   return (
     <ProtectedRoute>
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout
+        style={{ minHeight: '100vh' }}
+        id='antLayout'
+       
+      >
         <Sidebar />
         <Layout>
           <Content style={{ margin: '24px 16px 0' }}>

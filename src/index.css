@@ -6,7 +6,13 @@
   --base-color: #5c3ca8;
   --light-purple: #9c84cc;
 }
-
+#antLayout .ant-menu-item-selected {
+  background-color: var(--light-purple);
+}
+#antLayout .ant-menu-sub,
+#antLayout .ant-menu-root {
+  background-color: var(--base-color);
+}
 @layer utilities {
   .input {
     @apply bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5;
