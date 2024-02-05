@@ -19,7 +19,7 @@ export default function AllProducts() {
     data: productRes,
     isLoading,
     error,
-  } = useGetAllProductsQuery(filterQuery);
+  } = useGetAllProductsQuery(filterQuery, { refetchOnMountOrArgChange: true });
   const { data } = productRes || {};
   const modifiedData = data?.map((product: any) => ({
     quantity: product.quantity,

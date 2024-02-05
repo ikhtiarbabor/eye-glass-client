@@ -1,11 +1,11 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Space, TableProps } from 'antd';
 import { TProductColumn } from '../../types/allProduct.types';
+import { chooseColor } from '../../utils/chooseColor';
 import BulkDeleteInput from './BulkDeleteInput';
 import DeleteProduct from './DeleteProduct';
 import SelectAllInput from './SelectAllInput';
 import { UpdateModal } from './UpdateModal';
-import { chooseColor } from '../../utils/chooseColor';
 
 export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
   {
@@ -29,8 +29,9 @@ export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
   },
   {
     title: 'Price',
-    dataIndex: 'price',
+
     key: 'price',
+    render: (_, record) => <p className='text-right'>{record.price} $</p>,
   },
   {
     title: 'Quantity',
@@ -49,7 +50,6 @@ export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
   },
   {
     title: 'Color',
-
     key: 'color',
     render: (_, record) => (
       <p

@@ -3,6 +3,7 @@
 import { Button } from 'antd';
 import { useState } from 'react';
 import { Controller, FieldValues, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { lenseType, material } from '../../constant/addProduct.constant';
 import { useBrandsQuery } from '../../redux/features/brand/brandApi';
@@ -17,6 +18,7 @@ import SelectColor from './SelectColor';
 import SelectFrameShape from './SelectFrameShape';
 import SelectionOptions from './SelectionOptions';
 export default function Form() {
+  const navigate = useNavigate();
   const [addProduct, { isLoading: postLoad }] = useAddProductMutation();
   const [gender, setGender] = useState('male');
   const [color, setColor] = useState('red');
@@ -48,14 +50,17 @@ export default function Form() {
       quantity: Number(quantity),
     };
 
-    // formData.append('data', JSON.stringify(sendData));
     const addStatusId = toast.loading('wait trying to add product');
     try {
       const sendProduct = await addProduct(sendData).unwrap();
+
       toast.success(`${sendProduct?.message}`, {
         duration: 2000,
         id: addStatusId,
       });
+      if (sendProduct?.success) {
+        navigate('/admin/all-products');
+      }
     } catch (error: any | TError) {
       toast.error(
         `${error?.data?.message} ${error?.data?.errorSources[0]?.message}`,
@@ -63,6 +68,7 @@ export default function Form() {
       );
     }
   };
+
   let content = null;
   if (isLoading && !error) {
     content = <EGLoading />;

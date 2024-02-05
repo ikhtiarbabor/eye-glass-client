@@ -9,8 +9,9 @@ export interface TProductColumn {
   material: string;
   status: string;
   action: string;
-  _id:string;
-  sellDate?:Date
+  _id: string;
+  sellDate?: Date;
+  totalPrice?: number;
 }
 
 interface Brand {

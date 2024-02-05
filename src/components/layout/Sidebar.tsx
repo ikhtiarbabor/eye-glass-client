@@ -1,8 +1,8 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Layout, Menu, Space } from 'antd';
 import { useGetMeQuery } from '../../redux/features/auth/authApi';
-import { selectCurrentUser } from '../../redux/features/auth/authSlice';
-import { useAppSelector } from '../../redux/hooks';
+import { logout, selectCurrentUser } from '../../redux/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { adminPaths } from '../../routes/admin.routes';
 import { sidebarItemsGenerator } from '../../utils/sidebarItemsGenerator';
 
@@ -14,10 +14,14 @@ const userRole = {
 } as const;
 
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
+
   const { data: myData } = useGetMeQuery(undefined);
 
   const user = useAppSelector(selectCurrentUser);
-
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   let sidebarItems;
 
   switch (user!.role) {
@@ -59,6 +63,14 @@ const Sidebar = () => {
         defaultSelectedKeys={['4']}
         items={sidebarItems}
       />
+      <div className='text-right mx-3 my-3'>
+        <button
+          onClick={handleLogout}
+          className='text-white border px-3 rounded-md py-1'
+        >
+          Logout
+        </button>
+      </div>
     </Sider>
   );
 };

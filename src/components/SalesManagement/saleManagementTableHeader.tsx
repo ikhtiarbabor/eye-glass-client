@@ -21,8 +21,8 @@ export const saleManagementTableHeader: TableProps<TProductColumn>['columns'] =
     },
     {
       title: 'Price',
-      dataIndex: 'price',
       key: 'price',
+      render: (_, record) => <p className='text-right'>{record.price} $</p>,
     },
     {
       title: 'Quantity',

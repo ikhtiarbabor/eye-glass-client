@@ -10,6 +10,9 @@ const productApi = baseApi.injectEndpoints({
           body: productInfo,
         };
       },
+      invalidatesTags: () => {
+        return [{ type: 'Products', id: 'ProductList' }];
+      },
     }),
     getAllProducts: builder.query({
       query: (filterQuery) => {

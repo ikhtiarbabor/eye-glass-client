@@ -20,8 +20,8 @@ export const sellHistoryTableHead: TableProps<TProductColumn>['columns'] = [
   },
   {
     title: 'Total Amount',
-    dataIndex: 'totalPrice',
     key: 'totalPrice',
+    render: (_, record) => <p className='text-right'>{record.totalPrice} $</p>,
   },
   {
     title: 'Quantity',
