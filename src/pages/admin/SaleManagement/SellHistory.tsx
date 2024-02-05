@@ -20,9 +20,11 @@ export default function SellHistory() {
 
   const historyData =
     sellHistory?.data?.map((el: any) => {
-      const { productId, sellerId, totalPrice, quantity, sellDate } = el;
+      const { productId, sellerId, totalPrice, quantity, sellDate, buyerName } =
+        el;
       const { id, brand } = productId;
       const data = {
+        buyerName,
         id,
         brand: brand.brand,
         totalPrice,
