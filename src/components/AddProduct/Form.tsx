@@ -11,13 +11,13 @@ import { useAddProductMutation } from '../../redux/features/product/productApi';
 import { TError } from '../../types';
 import EGForm from '../form/EGForm';
 import EGLabel from '../form/EGLabel';
-import EGLoading from '../ui/EGLoading';
+import EGLoading, { EGLoadElement } from '../ui/EGLoading';
 import Input from './Input';
 import SelectBrands from './SelectBrands';
 import SelectColor from './SelectColor';
 import SelectFrameShape from './SelectFrameShape';
 import SelectionOptions from './SelectionOptions';
-export default function Form() {
+export default function Form({ loading }: { loading?: boolean }) {
   const navigate = useNavigate();
   const [addProduct, { isLoading: postLoad }] = useAddProductMutation();
   const [gender, setGender] = useState('male');
@@ -26,6 +26,7 @@ export default function Form() {
     data: brands,
     isLoading,
     error,
+    refetch,
   } = useBrandsQuery(undefined, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
@@ -68,6 +69,9 @@ export default function Form() {
       );
     }
   };
+  if (loading) {
+    refetch();
+  }
 
   let content = null;
   if (isLoading && !error) {
@@ -80,7 +84,7 @@ export default function Form() {
         <SelectFrameShape />
         <div className='my-2'>
           <EGLabel title='Select Brand' />
-          <SelectBrands brands={brands} />
+          {loading ? <EGLoadElement /> : <SelectBrands brands={brands} />}
         </div>
         <div>
           <SelectionOptions

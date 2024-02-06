@@ -11,9 +11,15 @@ const sellApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (result, _error, args) => {
         if (result) {
-          return [{ type: 'Products', id: args.id }];
+          return [
+            { type: 'Products', id: args.id },
+            { type: 'SellProducts', id: args.id },
+          ];
         } else {
-          return [{ type: 'Products', id: 'ProductList' }];
+          return [
+            { type: 'Products', id: 'ProductList' },
+            { type: 'SellProducts', id: 'SellProductList' },
+          ];
         }
       },
     }),
