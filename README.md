@@ -1,30 +1,38 @@
-# React + TypeScript + Vite
+<div align="center">
+  <img src="eye-glass-logo.png" alt="Eye Glass Admin Dashboard" width="200"/>
+</div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Eye Glass Admin Dashboard
 
-Currently, two official plugins are available:
+Welcome to the Eye Glass Admin Dashboard, a React Vite application for managing your eyewear inventory and sales.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Product Management:**
+  - Add new products
+  - Add brands
+  - View all products
+  - Delete multiple products at once
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Filtering:**
+  - Filter products by brand, material, quantity, and price
 
-- Configure the top-level `parserOptions` property like this:
+- **Sales:**
+  - Sell products
+  - Automatically remove out-of-stock products from the frontend
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Sales History:**
+  - View sales history
+  - Filter sales by daily, weekly, and yearly data
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- **State Management:**
+  - Redux is used for state management
+
+## Usage
+
+To use this project, follow these steps:
+
+1. Clone the project repository:
+
+   ```bash
+   git clone <repository_url>
