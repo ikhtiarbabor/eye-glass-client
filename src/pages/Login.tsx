@@ -64,7 +64,7 @@ const Login = () => {
                 placeholder='Enter Your Email Or Username'
               />
               <EGInput
-                type='text'
+                type='password'
                 name='password'
                 placeholder='Enter your password'
               />
