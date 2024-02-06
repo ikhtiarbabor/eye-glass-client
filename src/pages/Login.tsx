@@ -37,12 +37,12 @@ const Login = () => {
         password: data.password,
       };
       const res = await login(userInfo).unwrap();
-      const user = verifyToken(res.data.accessToken) as TUser;
+      const user = verifyToken(res?.data?.accessToken) as TUser;
       dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast.success('Logged in', { id: toastId, duration: 2000 });
       navigate(`/${user.role}/all-products`);
     } catch (err: TError | any) {
-      toast.error(`${err.data.message}`, { id: toastId, duration: 2000 });
+      toast.error(`${err?.data?.message}`, { id: toastId, duration: 2000 });
     }
   };
   let content = null;
