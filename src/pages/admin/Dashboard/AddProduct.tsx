@@ -30,7 +30,7 @@ export default function AddProduct() {
     <>
       <EGTitle>Add Brand</EGTitle>
       <div className='mb-5'>
-        <EGForm onSubmit={handleBrand}>
+        <EGForm onSubmit={handleBrand} >
           <Input title='brand' require label='Enter your Brand Name' />
           <button
             disabled={isLoading}

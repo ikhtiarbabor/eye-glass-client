@@ -31,15 +31,6 @@ export default function Form({ loading }: { loading?: boolean }) {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
   });
-
-  const defaultValues = {
-    price: 30,
-    quantity: 50,
-    color: 'red',
-    gender: 'female',
-    name: 'Eye Glass',
-    shape: 'rectangle',
-  };
   const handleAddProduct: SubmitHandler<FieldValues> = async (data) => {
     const { price, quantity, ...remainingData } = data;
 
@@ -79,7 +70,7 @@ export default function Form({ loading }: { loading?: boolean }) {
   }
   if (!isLoading && !error && brands?.data?.length > 0) {
     content = (
-      <EGForm onSubmit={handleAddProduct} defaultValues={defaultValues}>
+      <EGForm onSubmit={handleAddProduct}>
         <Input title='name' type='text' label='Enter Your Product Name' />
         <SelectFrameShape />
         <div className='my-2'>
