@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="eye-glass-logo.png" alt="Eye Glass Admin Dashboard" width="200"/>
+  <img src="/eye-glass.jpg" alt="Eye Glass Admin Dashboard" width="200"/>
 </div>
 
 # Eye Glass Admin Dashboard
