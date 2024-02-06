@@ -1,5 +1,8 @@
 <div align="center">
-  <img src="/eye-glass.jpg" alt="Eye Glass Admin Dashboard" width="200"/>
+  <img src="readmeAssets/eye-glass.jpg" alt="Eye Glass Admin Dashboard" width="200"/>
+  <img src="readmeAssets/sell-history.jpg" alt="Eye Glass sell History" width="200"/>
+  <img src="readmeAssets/add-product-add-brand.jpg" alt="Eye Glass Add Product" width="200"/>
+  <img src="readmeAssets/sell-product.jpg" alt="Eye Glass Product" width="200"/>
 </div>
 
 # Eye Glass Admin Dashboard
@@ -36,3 +39,19 @@ To use this project, follow these steps:
 
    ```bash
    git clone <repository_url>
+
+2. Navigate to the project directory:
+
+```bash
+cd eye-glass
+
+3. Install all dependencies using Yarn:
+
+```bash
+yarn
+
+4. Run the development server:
+```bash
+yarn dev
+
+This will start the development server, and you can access the Eye Glass Admin Dashboard in your web browser.
