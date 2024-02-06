@@ -9,19 +9,13 @@ const sellApi = baseApi.injectEndpoints({
         method: 'POST',
         body: sellInfo,
       }),
-      invalidatesTags: (result, _error, args) =>
-        result
-          ? [
-              { type: 'Products', id: args.id },
-              {
-                type: 'SellProducts',
-                id: args.id,
-              },
-            ]
-          : [
-              { type: 'Products', id: 'ProductList' },
-              { type: 'SellProducts', id: 'SellProductList' },
-            ],
+      invalidatesTags: (result, _error, args) => {
+        if (result) {
+          return [{ type: 'Products', id: args.id }];
+        } else {
+          return [{ type: 'Products', id: 'ProductList' }];
+        }
+      },
     }),
     getSells: builder.query({
       query: (query: string) => ({

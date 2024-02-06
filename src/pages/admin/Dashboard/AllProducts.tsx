@@ -38,9 +38,9 @@ export default function AllProducts() {
     content = <EGLoading />;
   }
   if ((!isLoading && !brandLoad && brandErr) || error) {
-    content = (
-      <EGError message={error?.data?.message || brandErr?.data?.message} />
-    );
+    const { data: errorData } = error as { data: { message: string } };
+    const { data } = brandErr as { data: { message: string } };
+    content = <EGError message={errorData?.message || data?.message} />;
   }
   if (!isLoading && !error) {
     content = (

@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { color } from '../../constant/addProduct.constant';
 
-export default function SelectColor({ setColor, color: selectColor }) {
+export default function SelectColor({
+  setColor,
+  color: selectColor,
+}: {
+  setColor: any;
+  color: any;
+}) {
   return (
     <div className='flex gap-3'>
       <>

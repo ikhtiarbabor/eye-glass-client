@@ -4,6 +4,16 @@ import { color, lenseType, shape } from '../../constant/addProduct.constant';
 import { TFilter } from '../../constant/filter.types';
 import BulkDeleteButton from './BulkDeleteButton';
 
+const initialData = {
+  material: '',
+  gender: '',
+  priceRange: 0,
+  lenseType: '',
+  color: '',
+  brand: '',
+  shape: '',
+};
+
 export default function FilterProduct({
   setFilterQuery,
   brands,
@@ -11,7 +21,7 @@ export default function FilterProduct({
   setFilterQuery: (e: object) => void;
   brands: { data: { _id: string; brand: string }[] };
 }) {
-  const [query, setQuery]: [TFilter, (e) => void] = useState({});
+  const [query, setQuery] = useState<TFilter>(initialData);
 
   return (
     <>
@@ -125,7 +135,7 @@ export default function FilterProduct({
           <button
             className='px-3 py-1 rounded-md my-5 hover:bg-purple-400 duration-150  bg-[--base-color] text-white'
             onClick={() => {
-              setQuery({});
+              setQuery(initialData);
               setFilterQuery({});
             }}
           >

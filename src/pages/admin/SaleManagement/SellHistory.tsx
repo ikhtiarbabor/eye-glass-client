@@ -39,7 +39,7 @@ export default function SellHistory() {
     content = <EGLoading />;
   }
   if (!isLoading && error) {
-    const { data } = error;
+    const { data } = error as { data: { message?: string } };
     content = <EGError message={data?.message} />;
   }
   if (!isLoading && !error) {

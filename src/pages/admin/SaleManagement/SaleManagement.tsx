@@ -17,7 +17,8 @@ export default function SaleManagement() {
     content = <EGLoading />;
   }
   if (!isLoading && error) {
-    content = <EGError message={error?.data?.message} />;
+    const { data } = error as { data: { message: string } };
+    content = <EGError message={data?.message} />;
   }
   if (!error && !isLoading) {
     content = (
