@@ -42,17 +42,17 @@ To use this project, follow these steps:
 
 2. Navigate to the project directory:
 
-  ```bash
-  cd eye-glass
+    ```bash
+    cd eye-glass
 
 3. Install all dependencies using Yarn:
 
-  ```bash
-  yarn
+    ```bash
+    yarn
 
 4. Run the development server:
-  ```bash
-  yarn dev
+    ```bash
+    yarn dev
 
 This will start the development server, and you can access the Eye Glass Admin Dashboard in your web browser.
 
