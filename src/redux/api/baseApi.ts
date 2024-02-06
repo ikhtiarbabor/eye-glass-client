@@ -36,7 +36,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     console.log('Sending refresh token');
 
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/auth/refresh-token`,
+      `https://eye-glass-server-one.vercel.app/api/v1/auth/refresh-token`,
       {
         method: 'POST',
         credentials: 'include',
