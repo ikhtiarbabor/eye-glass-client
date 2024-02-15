@@ -14,10 +14,11 @@ export default function AllProducts() {
     data: brands,
     isLoading: brandLoad,
     error: brandErr,
-  } = useBrandsQuery(undefined);
+  } = useBrandsQuery(undefined, { refetchOnMountOrArgChange: true });
   const {
     data: productRes,
     isLoading,
+    isFetching,
     error,
   } = useGetAllProductsQuery(filterQuery, { refetchOnMountOrArgChange: true });
   const { data } = productRes || {};
@@ -48,6 +49,7 @@ export default function AllProducts() {
         <FilterProduct setFilterQuery={setFilterQuery} brands={brands} />
         <div className='overflow-x-auto'>
           <Table
+            loading={isFetching}
             dataSource={modifiedData}
             className='capitalize'
             columns={productHeaderTable}

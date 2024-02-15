@@ -65,6 +65,16 @@ const productApi = baseApi.injectEndpoints({
           ? args.map((el: string) => ({ type: 'Products', id: el }))
           : [{ type: 'Products', id: 'ProductList' }],
     }),
+    duplicateProduct: builder.mutation({
+      query: (id) => ({
+        url: `/products/duplicate-product/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: (result, _error, args) =>
+        result
+          ? [{ type: 'Products', id: args }]
+          : [{ type: 'Products', id: 'ProductList' }],
+    }),
   }),
 });
 export const {
@@ -73,4 +83,5 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useBulkProductDeleteMutation,
+  useDuplicateProductMutation,
 } = productApi;

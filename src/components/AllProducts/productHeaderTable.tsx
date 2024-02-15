@@ -6,6 +6,7 @@ import BulkDeleteInput from './BulkDeleteInput';
 import DeleteProduct from './DeleteProduct';
 import SelectAllInput from './SelectAllInput';
 import { UpdateModal } from './UpdateModal';
+import DuplicateProduct from './DuplicateProduct';
 
 export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
   {
@@ -87,6 +88,7 @@ export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
             <EditOutlined />
           </UpdateModal>
         </button>
+        <DuplicateProduct id={record.id}/> 
         <DeleteProduct id={record.id} />
       </Space>
     ),

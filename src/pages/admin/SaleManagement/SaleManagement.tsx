@@ -6,7 +6,10 @@ import { useGetAllProductsQuery } from '../../../redux/features/product/productA
 import { TProduct } from '../../../types/allProduct.types';
 
 export default function SaleManagement() {
-  const { data, isLoading, error } = useGetAllProductsQuery(undefined);
+  const { data, isLoading, error, isFetching } = useGetAllProductsQuery(
+    undefined,
+    { refetchOnMountOrArgChange: true }
+  );
   const productData =
     data?.data?.map((product: TProduct) => ({
       ...product,
@@ -23,6 +26,8 @@ export default function SaleManagement() {
   if (!error && !isLoading) {
     content = (
       <Table
+        loading={isFetching} 
+        
         dataSource={productData}
         className='capitalize'
         columns={saleManagementTableHeader}

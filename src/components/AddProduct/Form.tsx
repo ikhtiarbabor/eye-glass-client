@@ -32,7 +32,7 @@ export default function Form({ loading }: { loading?: boolean }) {
     refetchOnReconnect: true,
   });
   const handleAddProduct: SubmitHandler<FieldValues> = async (data) => {
-    const { price, quantity, ...remainingData } = data;
+    const { price, quantity, image, ...remainingData } = data;
 
     const sendData = {
       ...remainingData,
@@ -41,11 +41,12 @@ export default function Form({ loading }: { loading?: boolean }) {
       price: Number(price),
       quantity: Number(quantity),
     };
-
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(sendData));
+    formData.append('file', image);
     const addStatusId = toast.loading('wait trying to add product');
     try {
-      const sendProduct = await addProduct(sendData).unwrap();
-
+      const sendProduct = await addProduct(formData).unwrap();
       toast.success(`${sendProduct?.message}`, {
         duration: 2000,
         id: addStatusId,

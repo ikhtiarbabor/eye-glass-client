@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Spin } from 'antd';
+import { SyncOutlined } from '@ant-design/icons';
 import { FieldValues } from 'react-hook-form';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -73,7 +73,14 @@ const Login = () => {
                   disabled={isLoading}
                   className='px-3 py-1 rounded-md my-5 hover:bg-slate-600 duration-150 bg-gray-700 text-white'
                 >
-                  {isLoading ? <Spin /> : 'Login'}
+                  {isLoading ? (
+                    <>
+                      <span className='pr-1'>Login</span>
+                      <SyncOutlined className='text-white' spin />
+                    </>
+                  ) : (
+                    'Login'
+                  )}
                 </button>
                 <Link
                   to='/register'

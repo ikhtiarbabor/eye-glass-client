@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DeleteTwoTone } from '@ant-design/icons';
+import { DeleteTwoTone, SyncOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 import { toast } from 'sonner';
 import { useDeleteProductMutation } from '../../redux/features/product/productApi';
@@ -39,7 +39,11 @@ export default function DeleteProduct({ id }: { id: string }) {
       >
         <button disabled={deleteLoading}>
           <Space>
-            <DeleteTwoTone twoToneColor='#ff0000' />
+            {deleteLoading ? (
+              <SyncOutlined className='text-[#ff0000]' spin />
+            ) : (
+              <DeleteTwoTone twoToneColor='#ff0000' />
+            )}
           </Space>
         </button>
       </PopConfirm>
