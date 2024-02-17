@@ -1,6 +1,7 @@
 import { Space, TableProps } from 'antd';
 import moment from 'moment';
 import { TProductColumn } from '../../types/allProduct.types';
+import PrintInvoice from '../Invoice/PrintInvoice';
 import SellHistoryModal from './SellHistoryModal';
 export const sellHistoryTableHead: TableProps<TProductColumn>['columns'] = [
   {
@@ -42,10 +43,11 @@ export const sellHistoryTableHead: TableProps<TProductColumn>['columns'] = [
   },
 
   {
-    title: 'Sell',
+    title: 'Action',
     key: 'Details',
     render: (_, record) => (
       <Space size='large'>
+        <PrintInvoice product={record}/>
         <button disabled={record.status === 'out of stock'} title=''>
           <SellHistoryModal />
         </button>

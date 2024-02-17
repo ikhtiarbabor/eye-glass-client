@@ -2,17 +2,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DatePicker, DatePickerProps } from 'antd';
 import Modal from 'antd/es/modal/Modal';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import DealSvg from '../../assets/DealSvg';
 import { useGetMeQuery } from '../../redux/features/auth/authApi';
 import { useCreateSellMutation } from '../../redux/features/sell/sellApi';
 import { TError } from '../../types';
+import PrintInvoice from '../Invoice/PrintInvoice';
 import EGForm from '../form/EGForm';
 import EGInput from '../form/EGInput';
 import EGLabel from '../form/EGLabel';
 import EGButton from '../ui/EGButton';
+import { EGLoadElement } from '../ui/EGLoading';
+import SuccessFull from '../ui/SuccessFull';
 
 export default function SaleManageMentModal({
   productName,
@@ -24,9 +27,13 @@ export default function SaleManageMentModal({
   productId: string;
 }) {
   const { data: me, isLoading } = useGetMeQuery(undefined);
-  const [createSell, { isLoading: sellLoading }] = useCreateSellMutation();
+  const [createSell, { data, isLoading: sellLoading }] =
+    useCreateSellMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sellDate, setSellDate] = useState(null || '');
+  const [printModal, setPrintModal] = useState(false);
+  const [sellDate, setSellDate] = useState<SetStateAction<string | string[]>>(
+    null || ''
+  );
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -38,6 +45,7 @@ export default function SaleManageMentModal({
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setPrintModal(false);
   };
   const handleSales: SubmitHandler<FieldValues> = async (data) => {
     const { quantity, buyerName } = data;
@@ -55,7 +63,7 @@ export default function SaleManageMentModal({
         id: sellToast,
         duration: 2000,
       });
-      setIsModalOpen(false);
+      setPrintModal(true);
     } catch (error: TError | any) {
       toast.error(
         `${error?.data?.errorSources[0]?.message || error?.data?.message}`,
@@ -78,6 +86,7 @@ export default function SaleManageMentModal({
       >
         <DealSvg />
       </button>
+
       <Modal
         title={`${productName}`}
         open={isModalOpen}
@@ -85,25 +94,46 @@ export default function SaleManageMentModal({
         onCancel={handleCancel}
         okButtonProps={{ className: 'hidden' }}
       >
-        <EGForm onSubmit={handleSales}>
-          <EGLabel title='Buyer Name ' />
-          <EGInput
-            type='text'
-            name='buyerName'
-            placeholder='Enter The Buyer Name'
-          />
-          <EGLabel title='Sell Quantity ' />
-          <EGInput
-            type='number'
-            name='quantity'
-            placeholder='Quantity of the product to be sold'
-          />
-          <EGLabel title='Pick The Date ' />
-          <DatePicker className='w-full' onChange={onChange} />
-          <div className='absolute bottom-0'>
-            <EGButton disable={isLoading || sellLoading}>Submit</EGButton>
-          </div>
-        </EGForm>
+        {printModal ? (
+          <>
+            <SuccessFull />
+            <p>If You want to download invoice click print</p>
+            <div className='absolute bottom-5'>
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setPrintModal(false);
+                }}
+              >
+                {sellLoading ? (
+                  <EGLoadElement />
+                ) : (
+                  <PrintInvoice id={data?.data?._id} />
+                )}
+              </button>
+            </div>
+          </>
+        ) : (
+          <EGForm onSubmit={handleSales}>
+            <EGLabel title='Buyer Name ' />
+            <EGInput
+              type='text'
+              name='buyerName'
+              placeholder='Enter The Buyer Name'
+            />
+            <EGLabel title='Sell Quantity ' />
+            <EGInput
+              type='number'
+              name='quantity'
+              placeholder='Quantity of the product to be sold'
+            />
+            <EGLabel title='Pick The Date ' />
+            <DatePicker className='w-full' onChange={onChange} />
+            <div className='absolute bottom-0'>
+              <EGButton disable={isLoading || sellLoading}>Submit</EGButton>
+            </div>
+          </EGForm>
+        )}
       </Modal>
     </>
   );

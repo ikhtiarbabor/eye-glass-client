@@ -4,6 +4,8 @@ import { useGetMeQuery } from '../../redux/features/auth/authApi';
 import { logout, selectCurrentUser } from '../../redux/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { adminPaths } from '../../routes/admin.routes';
+import { managerPaths } from '../../routes/manager.routes';
+import { sellerPaths } from '../../routes/seller.routes';
 import { sidebarItemsGenerator } from '../../utils/sidebarItemsGenerator';
 
 const { Sider } = Layout;
@@ -11,6 +13,8 @@ const { Sider } = Layout;
 const userRole = {
   ADMIN: 'admin',
   USER: 'user',
+  MANAGER: 'manager',
+  SELLER: 'seller',
 } as const;
 
 const Sidebar = () => {
@@ -19,6 +23,7 @@ const Sidebar = () => {
   const { data: myData } = useGetMeQuery(undefined);
 
   const user = useAppSelector(selectCurrentUser);
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -27,6 +32,12 @@ const Sidebar = () => {
   switch (user!.role) {
     case userRole.ADMIN:
       sidebarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN);
+      break;
+    case userRole.MANAGER:
+      sidebarItems = sidebarItemsGenerator(managerPaths, userRole.MANAGER);
+      break;
+    case userRole.SELLER:
+      sidebarItems = sidebarItemsGenerator(sellerPaths, userRole.SELLER);
       break;
     default:
       break;

@@ -51,8 +51,14 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (result, _error, args) =>
         result
-          ? [{ type: 'Products', id: args.id }]
-          : [{ type: 'Products', id: 'ProductList' }],
+          ? [
+              { type: 'Products', id: args.id },
+              { type: 'Inventory', id: args.id },
+            ]
+          : [
+              { type: 'Products', id: 'ProductList' },
+              { type: 'Inventory', id: 'InventoryList' },
+            ],
     }),
     bulkProductDelete: builder.mutation({
       query: (deletedData) => ({
@@ -62,18 +68,47 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (result, _error, args) =>
         result
-          ? args.map((el: string) => ({ type: 'Products', id: el }))
+          ? args.map((el: string) => ({ type: 'Products', id: el }), {
+              type: 'Inventory',
+              id: args.id,
+            })
           : [{ type: 'Products', id: 'ProductList' }],
     }),
     duplicateProduct: builder.mutation({
-      query: (id) => ({
-        url: `/products/duplicate-product/${id}`,
+      query: (productInfo) => ({
+        url: `/products/duplicate-product`,
         method: 'POST',
+        body: productInfo,
       }),
       invalidatesTags: (result, _error, args) =>
         result
-          ? [{ type: 'Products', id: args }]
-          : [{ type: 'Products', id: 'ProductList' }],
+          ? [
+              { type: 'Products', id: args.id },
+              { type: 'Inventory', id: args.id },
+            ]
+          : [
+              { type: 'Products', id: 'ProductList' },
+              { type: 'Inventory', id: 'InventoryList' },
+            ],
+    }),
+    getSellerInventory: builder.query({
+      query: (filterQuery) => {
+        const query = Object?.entries(filterQuery || {})
+          ?.map((el) => `${el[0]}=${el[1]}`)
+          .join('&');
+
+        return {
+          url: `/products/seller-products?${query}`,
+          method: 'GET',
+        };
+      },
+      providesTags: (result) =>
+        result
+          ? result?.data.map((product: Record<string, unknown>) => ({
+              type: 'Inventory',
+              id: product.id,
+            }))
+          : [{ type: 'Inventory', id: 'InventoryList' }],
     }),
   }),
 });
@@ -84,4 +119,5 @@ export const {
   useUpdateProductMutation,
   useBulkProductDeleteMutation,
   useDuplicateProductMutation,
+  useGetSellerInventoryQuery
 } = productApi;

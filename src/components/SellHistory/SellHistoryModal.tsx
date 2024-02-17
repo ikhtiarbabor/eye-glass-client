@@ -1,3 +1,4 @@
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { useState } from 'react';
 
@@ -22,8 +23,9 @@ export default function SellHistoryModal() {
         onClick={showModal}
         className='px-2 py-1 rounded-lg bg-gray-200 hover:bg-blue-300 duration-300 border'
       >
-        info
+        <InfoCircleOutlined />
       </button>
+
       <div className='lg:grid grid-cols-2'>
         <Modal
           title='Product Info'

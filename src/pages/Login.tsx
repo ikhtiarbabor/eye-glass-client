@@ -21,28 +21,31 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const defaultValues = {
-    emailOrUser: 'devid_smith',
-    password: 'Devid120#',
-  };
+  const defaultValues = { emailOrUser: 'manager120', password: 'Password123!' };
 
   const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (data: FieldValues) => {
+    const userInfo = {
+      emailOrUser: data.emailOrUser,
+      password: data.password,
+    };
     const toastId = toast.loading('Logging in');
-
     try {
-      const userInfo = {
-        emailOrUser: data.emailOrUser,
-        password: data.password,
-      };
       const res = await login(userInfo).unwrap();
       const user = verifyToken(res?.data?.accessToken) as TUser;
       dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast.success('Logged in', { id: toastId, duration: 2000 });
       navigate(`/${user.role}/all-products`);
-    } catch (err: TError | any) {
-      toast.error(`${err?.data?.message}`, { id: toastId, duration: 2000 });
+    } catch (error: TError | any) {
+      toast.error(
+        `${
+          error?.data?.errorSources.length > 0
+            ? error?.data?.errorSources[0]?.message
+            : error.data.message
+        }`,
+        { id: toastId, duration: 2000 }
+      );
     }
   };
   let content = null;
@@ -59,11 +62,13 @@ const Login = () => {
                 Login
               </h2>
               <EGInput
+                required
                 type='text'
                 name='emailOrUser'
                 placeholder='Enter Your Email Or Username'
               />
               <EGInput
+                required
                 type='password'
                 name='password'
                 placeholder='Enter your password'
@@ -91,7 +96,19 @@ const Login = () => {
               </div>
             </EGForm>
           </div>
-        </div>{' '}
+          {/* <div>
+            <button
+              onClick={() => {
+                setEmailOrUser('devid_smith');
+                setPassword('Devid120#');
+              }}
+              disabled={isLoading}
+              className='px-3 py-1 rounded-md my-5 hover:bg-slate-600 duration-150 bg-gray-700 text-white'
+            >
+              Admin
+            </button>
+          </div> */}
+        </div>
       </div>
     );
   }

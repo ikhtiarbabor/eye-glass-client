@@ -23,11 +23,12 @@ export default function SaleManagement() {
     const { data } = error as { data: { message: string } };
     content = <EGError message={data?.message} />;
   }
+  console.log(productData);
+  
   if (!error && !isLoading) {
     content = (
       <Table
         loading={isFetching} 
-        
         dataSource={productData}
         className='capitalize'
         columns={saleManagementTableHeader}

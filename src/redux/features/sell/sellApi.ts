@@ -36,7 +36,13 @@ const sellApi = baseApi.injectEndpoints({
             }))
           : [{ type: 'SellProducts', id: 'SellProductList' }],
     }),
+    getInvoice: builder.query({
+      query: (id: string) => ({
+        url: `/sells/invoice/${id}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useCreateSellMutation, useGetSellsQuery } = sellApi;
+export const { useCreateSellMutation, useGetSellsQuery,useGetInvoiceQuery } = sellApi;

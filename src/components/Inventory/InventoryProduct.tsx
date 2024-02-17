@@ -1,14 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Table } from 'antd';
-import { useState } from 'react';
-import FilterProduct from '../../../components/AllProducts/FilterProduct';
-import { productHeaderTable } from '../../../components/AllProducts/productHeaderTable';
-import EGError from '../../../components/ui/EGError';
-import EGLoading from '../../../components/ui/EGLoading';
-import { useBrandsQuery } from '../../../redux/features/brand/brandApi';
-import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
+import { useRef, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import { useBrandsQuery } from '../../redux/features/brand/brandApi';
+import { useGetSellerInventoryQuery } from '../../redux/features/product/productApi';
+import FilterProduct from '../AllProducts/FilterProduct';
+import { productHeaderTable } from '../AllProducts/productHeaderTable';
+import Invoice from '../Invoice/Invoice';
+import EGError from '../ui/EGError';
+import EGLoading from '../ui/EGLoading';
 
-export default function AllProducts() {
+export default function InventoryProduct() {
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const [filterQuery, setFilterQuery] = useState({});
   const {
     data: brands,
@@ -16,12 +22,14 @@ export default function AllProducts() {
     error: brandErr,
   } = useBrandsQuery(undefined, { refetchOnMountOrArgChange: true });
   const {
-    data: productRes,
+    data: InventoryRes,
     isLoading,
     isFetching,
     error,
-  } = useGetAllProductsQuery(filterQuery, { refetchOnMountOrArgChange: true });
-  const { data } = productRes || {};
+  } = useGetSellerInventoryQuery(filterQuery, {
+    refetchOnMountOrArgChange: true,
+  });
+  const { data } = InventoryRes || {};
   const modifiedData = data?.map((product: any) => ({
     quantity: product.quantity,
     name: product.name,
@@ -54,6 +62,9 @@ export default function AllProducts() {
             className='capitalize'
             columns={productHeaderTable}
           />
+
+          <Invoice componentRef={componentRef} />
+          <button onClick={handlePrint}>Print this out!</button>
         </div>
       </>
     );

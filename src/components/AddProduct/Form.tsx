@@ -6,8 +6,10 @@ import { Controller, FieldValues, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { lenseType, material } from '../../constant/addProduct.constant';
+import { selectCurrentUser } from '../../redux/features/auth/authSlice';
 import { useBrandsQuery } from '../../redux/features/brand/brandApi';
 import { useAddProductMutation } from '../../redux/features/product/productApi';
+import { useAppSelector } from '../../redux/hooks';
 import { TError } from '../../types';
 import EGForm from '../form/EGForm';
 import EGLabel from '../form/EGLabel';
@@ -18,6 +20,8 @@ import SelectColor from './SelectColor';
 import SelectFrameShape from './SelectFrameShape';
 import SelectionOptions from './SelectionOptions';
 export default function Form({ loading }: { loading?: boolean }) {
+  const user = useAppSelector(selectCurrentUser);
+
   const navigate = useNavigate();
   const [addProduct, { isLoading: postLoad }] = useAddProductMutation();
   const [gender, setGender] = useState('male');
@@ -38,6 +42,7 @@ export default function Form({ loading }: { loading?: boolean }) {
       ...remainingData,
       color,
       gender,
+      user: user!.email,
       price: Number(price),
       quantity: Number(quantity),
     };

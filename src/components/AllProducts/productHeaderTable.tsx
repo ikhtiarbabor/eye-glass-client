@@ -4,9 +4,9 @@ import { TProductColumn } from '../../types/allProduct.types';
 import { chooseColor } from '../../utils/chooseColor';
 import BulkDeleteInput from './BulkDeleteInput';
 import DeleteProduct from './DeleteProduct';
+import { DuplicateProductModal } from './DuplicateProductModal';
 import SelectAllInput from './SelectAllInput';
 import { UpdateModal } from './UpdateModal';
-import DuplicateProduct from './DuplicateProduct';
 
 export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
   {
@@ -88,7 +88,10 @@ export const productHeaderTable: TableProps<TProductColumn>['columns'] = [
             <EditOutlined />
           </UpdateModal>
         </button>
-        <DuplicateProduct id={record.id}/> 
+        <DuplicateProductModal
+          product={record}
+          id={record.id}
+        ></DuplicateProductModal>
         <DeleteProduct id={record.id} />
       </Space>
     ),

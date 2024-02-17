@@ -22,8 +22,10 @@ export default function SellHistory() {
     sellHistory?.data?.map((el: any) => {
       const { productId, sellerId, totalPrice, quantity, sellDate, buyerName } =
         el || {};
-      const { id, brand } = productId || {};
+      const { id, brand, price, name } = productId || {};
       const data = {
+        name,
+        price,
         buyerName,
         id,
         brand: brand?.brand,
@@ -34,6 +36,8 @@ export default function SellHistory() {
       };
       return data;
     }) || [];
+  
+
   let content = null;
   if (isLoading && !error) {
     content = <EGLoading />;

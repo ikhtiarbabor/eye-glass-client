@@ -18,5 +18,10 @@ export default function DuplicateProduct({ id }: { id: string }) {
         <CopyTwoTone />
       )}
     </button>
+
   );
 }
+
+
+
+
