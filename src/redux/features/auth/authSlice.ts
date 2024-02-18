@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { Dispatch, createSlice } from '@reduxjs/toolkit';
 import { RootState, persistor } from '../../store';
 
 export type TUser = {
@@ -37,7 +37,7 @@ const authSlice = createSlice({
   },
 });
 export const logoutAndClearPersistedState = () => {
-  return async (dispatch) => {
+  return async (dispatch:Dispatch) => {
     try {
       await persistor.purge();
       dispatch(authSlice.actions.logout());
