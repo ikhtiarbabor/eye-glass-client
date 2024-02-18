@@ -11,7 +11,7 @@ import { logout, setUser } from '../features/auth/authSlice';
 import { RootState } from '../store';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api/v1',
+  baseUrl: 'https://eye-glass-server-one.vercel.app/api/v1',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -67,6 +67,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ['Products', 'Brands', 'SellProducts', 'Inventory'],
+  tagTypes: ['Products', 'Brands', 'SellProducts', 'Inventory', 'Duplicate'],
   endpoints: () => ({}),
 });

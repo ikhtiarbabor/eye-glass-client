@@ -6,21 +6,6 @@ import CreateUser from '../pages/manager/UserManagement/CreateUser';
 
 export const managerPaths = [
   {
-    name: 'Product Management',
-    children: [
-      {
-        name: 'Add Product',
-        path: 'add-product',
-        element: <AddProduct />,
-      },
-      {
-        name: 'All Products',
-        path: 'all-products',
-        element: <AllProducts />,
-      },
-    ],
-  },
-  {
     name: 'User Management',
     children: [
       {
@@ -32,6 +17,21 @@ export const managerPaths = [
         name: 'Users',
         path: 'all-users',
         element: <AllUsers />,
+      },
+    ],
+  },
+  {
+    name: 'Product Management',
+    children: [
+      {
+        name: 'Add Product',
+        path: 'add-product',
+        element: <AddProduct />,
+      },
+      {
+        name: 'All Products',
+        path: 'all-products',
+        element: <AllProducts />,
       },
     ],
   },

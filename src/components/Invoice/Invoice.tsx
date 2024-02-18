@@ -4,7 +4,6 @@ import { useGetInvoiceQuery } from '../../redux/features/sell/sellApi';
 import SvgLogo from '/eye.svg';
 export default function Invoice({ componentRef, product, id }: any) {
   const { data } = useGetInvoiceQuery(id, { refetchOnMountOrArgChange: true });
-  console.log(data);
   const {
     buyerName: bName,
     productId,
@@ -68,7 +67,7 @@ export default function Invoice({ componentRef, product, id }: any) {
         <div className='flex flex-col items-end'>
           <p>Subtotal:{totalPrice || overallPrice} TK</p>
           <p>Discount :0 TK</p>
-          <p>Total: {totalPrice || overallPrice}</p>
+          <p>Total: {totalPrice || overallPrice} TK</p>
         </div>
       </div>
     </div>

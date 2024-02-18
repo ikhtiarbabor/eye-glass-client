@@ -40,8 +40,16 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (result, _error, args) =>
         result
-          ? [{ type: 'Products', id: args }]
-          : [{ type: 'Products', id: 'ProductList' }],
+          ? [
+              { type: 'Products', id: args },
+              { type: 'Inventory', id: result._id },
+              { type: 'Duplicate', id: 'DuplicateList' },
+            ]
+          : [
+              { type: 'Products', id: 'ProductList' },
+              { type: 'Inventory', id: 'InventoryList' },
+              { type: 'Duplicate', id: 'DuplicateList' },
+            ],
     }),
     updateProduct: builder.mutation({
       query: ({ id, sendData }) => ({
@@ -53,11 +61,13 @@ const productApi = baseApi.injectEndpoints({
         result
           ? [
               { type: 'Products', id: args.id },
-              { type: 'Inventory', id: args.id },
+              { type: 'Inventory', id: result._id },
+              { type: 'Duplicate', id: 'DuplicateList' },
             ]
           : [
               { type: 'Products', id: 'ProductList' },
               { type: 'Inventory', id: 'InventoryList' },
+              { type: 'Duplicate', id: 'DuplicateList' },
             ],
     }),
     bulkProductDelete: builder.mutation({
@@ -80,17 +90,25 @@ const productApi = baseApi.injectEndpoints({
         method: 'POST',
         body: productInfo,
       }),
-      invalidatesTags: (result, _error, args) =>
-        result
+      invalidatesTags: (result, _error, args) => {
+        return result
           ? [
               { type: 'Products', id: args.id },
-              { type: 'Inventory', id: args.id },
+              { type: 'Inventory', id: result?.data?._id },
+              { type: 'Duplicate', id: 'DuplicateList' },
             ]
           : [
               { type: 'Products', id: 'ProductList' },
               { type: 'Inventory', id: 'InventoryList' },
-            ],
+              { type: 'Duplicate', id: 'DuplicateList' },
+            ];
+      },
     }),
+    getSingleProduct: builder.query({
+      query: (id) => ({ url: `/products/${id}`, method: 'GET' }),
+      providesTags: [{ type: 'Duplicate', id: 'DuplicateList' }],
+    }),
+
     getSellerInventory: builder.query({
       query: (filterQuery) => {
         const query = Object?.entries(filterQuery || {})
@@ -106,7 +124,7 @@ const productApi = baseApi.injectEndpoints({
         result
           ? result?.data.map((product: Record<string, unknown>) => ({
               type: 'Inventory',
-              id: product.id,
+              id: product._id,
             }))
           : [{ type: 'Inventory', id: 'InventoryList' }],
     }),
@@ -119,5 +137,6 @@ export const {
   useUpdateProductMutation,
   useBulkProductDeleteMutation,
   useDuplicateProductMutation,
-  useGetSellerInventoryQuery
+  useGetSellerInventoryQuery,
+  useGetSingleProductQuery,
 } = productApi;

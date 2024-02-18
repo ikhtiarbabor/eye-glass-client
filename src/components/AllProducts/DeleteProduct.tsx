@@ -2,9 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DeleteTwoTone, SyncOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
-import { toast } from 'sonner';
 import { useDeleteProductMutation } from '../../redux/features/product/productApi';
-import { TError, TResponse } from '../../types';
+import asyncHandler from '../../utils/asyncHandler';
 import PopConfirm from '../ui/PopConfirm';
 
 export default function DeleteProduct({ id }: { id: string }) {
@@ -12,19 +11,10 @@ export default function DeleteProduct({ id }: { id: string }) {
     useDeleteProductMutation();
 
   const handleDelete = async () => {
-    const deleteToastId = toast.loading(`Trying to delete this Product`, {
-      duration: 2000,
+    asyncHandler({
+      res: deleteProduct(id).unwrap(),
+      toastText: 'Delete Product',
     });
-    try {
-      const deletedProduct: TResponse<any> | any = await deleteProduct(
-        id
-      ).unwrap();
-      const message = deletedProduct.message;
-
-      toast.success(`${message}`, { id: deleteToastId, duration: 2000 });
-    } catch (error: TError | any) {
-      toast.error(`${error.message}`, { id: deleteToastId, duration: 2000 });
-    }
   };
   const confirm = (_e: React.MouseEvent<HTMLElement> | undefined) => {
     handleDelete();

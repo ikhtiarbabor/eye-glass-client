@@ -4,10 +4,13 @@ import EGError from '../../../components/ui/EGError';
 import EGLoading from '../../../components/ui/EGLoading';
 import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
 import { TProduct } from '../../../types/allProduct.types';
+import FilterProduct from '../../../components/AllProducts/FilterProduct';
+import { useState } from 'react';
 
 export default function SaleManagement() {
+  const [filterQuery, setFilterQuery] = useState({});
   const { data, isLoading, error, isFetching } = useGetAllProductsQuery(
-    undefined,
+    filterQuery,
     { refetchOnMountOrArgChange: true }
   );
   const productData =
@@ -23,16 +26,17 @@ export default function SaleManagement() {
     const { data } = error as { data: { message: string } };
     content = <EGError message={data?.message} />;
   }
-  console.log(productData);
-  
+
   if (!error && !isLoading) {
     content = (
+      <>
+      <FilterProduct setFilterQuery={setFilterQuery} />
       <Table
-        loading={isFetching} 
+        loading={isFetching}
         dataSource={productData}
         className='capitalize'
         columns={saleManagementTableHeader}
-      />
+      /></>
     );
   }
   return <div className='overflow-x-auto'>{content}</div>;

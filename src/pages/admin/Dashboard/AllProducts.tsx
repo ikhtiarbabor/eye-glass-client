@@ -5,16 +5,12 @@ import FilterProduct from '../../../components/AllProducts/FilterProduct';
 import { productHeaderTable } from '../../../components/AllProducts/productHeaderTable';
 import EGError from '../../../components/ui/EGError';
 import EGLoading from '../../../components/ui/EGLoading';
-import { useBrandsQuery } from '../../../redux/features/brand/brandApi';
+
 import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
 
 export default function AllProducts() {
   const [filterQuery, setFilterQuery] = useState({});
-  const {
-    data: brands,
-    isLoading: brandLoad,
-    error: brandErr,
-  } = useBrandsQuery(undefined, { refetchOnMountOrArgChange: true });
+
   const {
     data: productRes,
     isLoading,
@@ -35,18 +31,18 @@ export default function AllProducts() {
     lenseType: product?.lenseType,
   }));
   let content = null;
-  if ((isLoading || brandLoad) && !error && !brandErr) {
+  if (isLoading && !error) {
     content = <EGLoading />;
   }
-  if ((!isLoading && !brandLoad && brandErr) || error) {
+  if (!isLoading && error) {
     const { data: errorData } = (error as { data: { message: string } }) || {};
-    const { data } = (brandErr as { data: { message: string } }) || {};
-    content = <EGError message={errorData?.message || data?.message} />;
+
+    content = <EGError message={errorData?.message} />;
   }
   if (!isLoading && !error) {
     content = (
       <>
-        <FilterProduct setFilterQuery={setFilterQuery} brands={brands} />
+        <FilterProduct setFilterQuery={setFilterQuery} />
         <div className='overflow-x-auto'>
           <Table
             loading={isFetching}

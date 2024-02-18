@@ -42,7 +42,19 @@ const sellApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getSellerHistory: builder.query({
+      query: (filter) => ({
+        url: `/sells/seller-history`,
+        method: 'GET',
+        params: filter,
+      }),
+    }),
   }),
 });
 
-export const { useCreateSellMutation, useGetSellsQuery,useGetInvoiceQuery } = sellApi;
+export const {
+  useCreateSellMutation,
+  useGetSellsQuery,
+  useGetInvoiceQuery,
+  useGetSellerHistoryQuery,
+} = sellApi;

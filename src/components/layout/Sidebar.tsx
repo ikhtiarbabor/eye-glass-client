@@ -1,7 +1,10 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Layout, Menu, Space } from 'antd';
 import { useGetMeQuery } from '../../redux/features/auth/authApi';
-import { logout, selectCurrentUser } from '../../redux/features/auth/authSlice';
+import {
+  logoutAndClearPersistedState,
+  selectCurrentUser,
+} from '../../redux/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { adminPaths } from '../../routes/admin.routes';
 import { managerPaths } from '../../routes/manager.routes';
@@ -20,12 +23,16 @@ const userRole = {
 const Sidebar = () => {
   const dispatch = useAppDispatch();
 
-  const { data: myData } = useGetMeQuery(undefined);
+  const { data: myData } = useGetMeQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
+  });
 
   const user = useAppSelector(selectCurrentUser);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutAndClearPersistedState());
   };
   let sidebarItems;
 

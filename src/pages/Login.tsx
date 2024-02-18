@@ -9,6 +9,7 @@ import EGInput from '../components/form/EGInput';
 import { useLoginMutation } from '../redux/features/auth/authApi';
 import {
   TUser,
+  selectCurrentUser,
   setUser,
   useCurrentToken,
 } from '../redux/features/auth/authSlice';
@@ -17,6 +18,7 @@ import { TError } from '../types';
 import { verifyToken } from '../utils/verifyToken';
 
 const Login = () => {
+  const user = useAppSelector(selectCurrentUser);
   const token = useAppSelector(useCurrentToken);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -50,7 +52,7 @@ const Login = () => {
   };
   let content = null;
   if (token) {
-    content = <Navigate to='/admin/all-products' replace />;
+    content = <Navigate to={`/${user?.role}/all-products`} replace />;
   }
   if (!token) {
     content = (
@@ -96,18 +98,6 @@ const Login = () => {
               </div>
             </EGForm>
           </div>
-          {/* <div>
-            <button
-              onClick={() => {
-                setEmailOrUser('devid_smith');
-                setPassword('Devid120#');
-              }}
-              disabled={isLoading}
-              className='px-3 py-1 rounded-md my-5 hover:bg-slate-600 duration-150 bg-gray-700 text-white'
-            >
-              Admin
-            </button>
-          </div> */}
         </div>
       </div>
     );

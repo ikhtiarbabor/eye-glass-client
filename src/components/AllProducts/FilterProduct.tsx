@@ -2,6 +2,7 @@ import { Tooltip } from 'antd';
 import { useState } from 'react';
 import { color, lenseType, shape } from '../../constant/addProduct.constant';
 import { TFilter } from '../../constant/filter.types';
+import { useBrandsQuery } from '../../redux/features/brand/brandApi';
 import BulkDeleteButton from './BulkDeleteButton';
 
 const initialData = {
@@ -12,19 +13,51 @@ const initialData = {
   color: '',
   brand: '',
   shape: '',
+  search: '',
 };
 
 export default function FilterProduct({
   setFilterQuery,
-  brands,
 }: {
   setFilterQuery: (e: object) => void;
-  brands: { data: { _id: string; brand: string }[] };
 }) {
+  const {
+    data: allBrands,
+    isLoading,
+    isError,
+  } = useBrandsQuery(undefined, { refetchOnMountOrArgChange: true });
   const [query, setQuery] = useState<TFilter>(initialData);
 
   return (
     <>
+      <div className='relative'>
+        <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
+          <svg
+            className='size-3 text-gray-500'
+            aria-hidden='true'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 20 20'
+          >
+            <path
+              stroke='currentColor'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
+            />
+          </svg>
+        </div>
+        <input
+          onChange={(e) => setQuery({ ...query, search: e.target.value })}
+          value={query.search}
+          type='search'
+          id='default-search'
+          className='block  outline-none w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50'
+          placeholder='Search Here That Your want'
+          required
+        />
+      </div>
       <div className='grid sm:grid-cols-2 md:grid-cols-4 gap-5'>
         <select
           value={query.material}
@@ -37,20 +70,24 @@ export default function FilterProduct({
           <option value='metal'>metal</option>
           <option value='plastic'>Plastic</option>
         </select>
-        <select
-          value={query.brand}
-          name=''
-          id=''
-          className='input capitalize'
-          onChange={(e) => setQuery({ ...query, brand: e.target.value })}
-        >
-          <option value=''>Brands</option>
-          {brands?.data?.map((b: { _id: string; brand: string }) => (
-            <option value={b._id} key={b._id} className='capitalize'>
-              {b.brand}
-            </option>
-          ))}
-        </select>
+
+        {allBrands && !isLoading && !isError && (
+          <select
+            value={query.brand}
+            name=''
+            id=''
+            className='input capitalize'
+            onChange={(e) => setQuery({ ...query, brand: e.target.value })}
+          >
+            <option value=''>Brands</option>
+            {allBrands?.data?.map((b: { _id: string; brand: string }) => (
+              <option value={b._id} key={b._id} className='capitalize'>
+                {b.brand}
+              </option>
+            ))}
+          </select>
+        )}
+
         <select
           name=''
           value={query.shape}
@@ -104,7 +141,6 @@ export default function FilterProduct({
           <option value='male'>Male</option>
           <option value='female'>Female</option>
         </select>
-
         <div className='relative mb-6 md:col-span-2'>
           <label htmlFor='labels-range-input' className='sr-only'>
             Labels range

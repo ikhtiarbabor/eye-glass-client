@@ -57,7 +57,7 @@ export default function Form({ loading }: { loading?: boolean }) {
         id: addStatusId,
       });
       if (sendProduct?.success) {
-        navigate('/admin/all-products');
+        navigate(`/${user?.role}/all-products`);
       }
     } catch (error: any | TError) {
       toast.error(

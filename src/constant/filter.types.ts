@@ -6,5 +6,6 @@ export const filterData = {
   color: '',
   brand: '',
   shape: '',
+  search: '',
 };
 export type TFilter = typeof filterData;

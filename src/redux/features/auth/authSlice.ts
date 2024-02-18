@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
+import { RootState, persistor } from '../../store';
 
 export type TUser = {
   email: string;
@@ -32,7 +32,20 @@ const authSlice = createSlice({
       state.token = null;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(logout, () => {});
+  },
 });
+export const logoutAndClearPersistedState = () => {
+  return async (dispatch) => {
+    try {
+      await persistor.purge();
+      dispatch(authSlice.actions.logout());
+    } catch (error) {
+      console.error('Error occurred during logout:', error);
+    }
+  };
+};
 
 export const { setUser, logout } = authSlice.actions;
 

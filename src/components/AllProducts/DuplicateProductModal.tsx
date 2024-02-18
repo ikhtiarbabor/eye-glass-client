@@ -7,7 +7,10 @@ import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { lenseType } from '../../constant/addProduct.constant';
 import { selectCurrentUser } from '../../redux/features/auth/authSlice';
 import { useBrandsQuery } from '../../redux/features/brand/brandApi';
-import { useDuplicateProductMutation } from '../../redux/features/product/productApi';
+import {
+  useDuplicateProductMutation,
+  useGetSingleProductQuery,
+} from '../../redux/features/product/productApi';
 import { useAppSelector } from '../../redux/hooks';
 import asyncHandler from '../../utils/asyncHandler';
 import Input from '../AddProduct/Input';
@@ -31,10 +34,22 @@ export function DuplicateProductModal({ product, id }: TUpdateProduct) {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
   });
-  const [color, setColor] = useState(product?.color || 'red');
-  const [gender, setGender] = useState(product.gender || 'male');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { name, price, material, shape, quantity } = product || {};
+  const { data: singleProduct, refetch } = useGetSingleProductQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
+  const {
+    color: initialColor,
+    gender: initialGender,
+    name,
+    price,
+    material,
+    shape,
+    quantity,
+  } = singleProduct?.data || {};
+
+  const [color, setColor] = useState(initialColor || 'red');
+  const [gender, setGender] = useState(initialGender || 'male');
+const [isModalOpen, setIsModalOpen] = useState(false);
   const defaultValues = {
     price,
     quantity,
@@ -46,6 +61,7 @@ export function DuplicateProductModal({ product, id }: TUpdateProduct) {
   };
 
   const showModal = () => {
+    refetch();
     setIsModalOpen(true);
   };
 
