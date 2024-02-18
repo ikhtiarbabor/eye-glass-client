@@ -64,7 +64,18 @@ To use this project, follow these steps:
    ```bash
    yarn dev
    ```
-
+## Demo Account
+```bash  
+admin:    
+     username: devid_smith  
+     password: Devid120#  
+manager:  
+     username: manager120  
+     password: Manager120#  
+user:   
+     username: normaluser  
+     password: User120#
+```
 This will start the development server, and you can access the Eye Glass Admin Dashboard in your web browser.
 Live site Client Link :
 
