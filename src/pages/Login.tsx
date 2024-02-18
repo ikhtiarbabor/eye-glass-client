@@ -23,7 +23,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const defaultValues = { emailOrUser: 'manager120', password: 'Password123!' };
+  const defaultValues = { emailOrUser: 'devid_smith', password: 'Devid120#' };
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -97,6 +97,24 @@ const Login = () => {
                 </Link>
               </div>
             </EGForm>
+          </div>
+          <div>
+            <p className='font-bold text-xl'>Demo Account</p>
+            <div>
+              <p className='font-bold'>Admin</p>
+              <p>username: devid_smith</p>
+              <p>password: Devid120#</p>
+            </div>
+            <div>
+              <p className='font-bold'>Manager</p>
+              <p>username: manager120</p>
+              <p>password: Manager120#</p>
+            </div>
+            <div>
+              <p className='font-bold'>User</p>
+              <p>username: normaluser</p>
+              <p>password: User120#</p>
+            </div>
           </div>
         </div>
       </div>
