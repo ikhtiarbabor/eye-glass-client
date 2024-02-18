@@ -44,7 +44,7 @@ const Login = () => {
         `${
           error?.data?.errorSources.length > 0
             ? error?.data?.errorSources[0]?.message
-            : error.data.message
+            : error?.data?.message
         }`,
         { id: toastId, duration: 2000 }
       );

@@ -11,6 +11,8 @@ import { logout, setUser } from '../features/auth/authSlice';
 import { RootState } from '../store';
 
 const baseQuery = fetchBaseQuery({
+  //http://localhost:5000/api/v1
+  //https://eye-glass-server-one.vercel.app/api/v1
   baseUrl: 'https://eye-glass-server-one.vercel.app/api/v1',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
